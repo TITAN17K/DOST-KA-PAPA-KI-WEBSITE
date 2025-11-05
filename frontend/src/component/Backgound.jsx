@@ -50,9 +50,9 @@ function Background({ heroCount }) {
   const loadingProgress = (loadedCount / backgroundImages.length) * 100
 
   return (
-    <div className='w-full h-full relative overflow-hidden select-none'>
+    <div className='w-full h-full relative overflow-hidden select-none font-serif'>
       
-      {/* Background Images */}
+      {/* GUCCI Background Images */}
       {backgroundImages.map((img, index) => (
         <div
           key={index}
@@ -71,68 +71,44 @@ function Background({ heroCount }) {
         </div>
       ))}
       
-      {/* Enhanced Loading State */}
+      {/* GUCCI Minimal Loading State */}
       {!imagesLoaded && (
-        <div className='absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black flex items-center justify-center'>
-          <div className='text-white text-center max-w-sm mx-auto p-6'>
+        <div className='absolute inset-0 bg-white flex items-center justify-center'>
+          <div className='text-black text-center'>
             
-            {/* FROZELIA Loading Brand */}
+            {/* GUCCI Brand Loading */}
             <div className='mb-8'>
-              <h1 className='text-3xl font-extralight tracking-[0.3em] text-white mb-2'>
-                FROZELIA
+              <h1 className='text-2xl font-normal tracking-[0.2em] text-black mb-4'>
+                CALY COURTURE
               </h1>
-              <div className='w-12 h-px bg-white mx-auto'></div>
             </div>
             
-            {/* Loading Spinner */}
-            <div className='relative mb-6'>
-              <div className='w-12 h-12 border-2 border-stone-300 border-t-white rounded-full animate-spin mx-auto'></div>
-            </div>
-            
-            {/* Loading Progress */}
-            <div className='w-48 h-1 bg-stone-700 rounded-full mx-auto mb-4 overflow-hidden'>
+            {/* GUCCI Simple Loading Progress */}
+            <div className='w-32 h-px bg-gray-300 mx-auto mb-4'>
               <div 
-                className='h-full bg-white transition-all duration-300 ease-out rounded-full'
+                className='h-full bg-black transition-all duration-300'
                 style={{ width: `${loadingProgress}%` }}
               ></div>
             </div>
             
-            <p className='text-sm font-light text-gray-300 tracking-wide'>
-              {hasError ? 'Loading gallery...' : `Loading images... ${loadedCount}/${backgroundImages.length}`}
+            <p className='text-sm font-light text-gray-600'>
+              {hasError ? 'Loading...' : `${loadedCount}/${backgroundImages.length}`}
             </p>
           </div>
         </div>
       )}
       
-      {/* Luxury Overlay Effects */}
+      {/* GUCCI Minimal Overlay */}
       <div className='absolute inset-0 pointer-events-none'>
-        {/* Primary gradient overlay */}
-        <div className='absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-black/30'></div>
-        
-        {/* Subtle vignette effect */}
-        <div className='absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/20'></div>
-        
-        {/* Top fade for text readability */}
-        <div className='absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-black/30 to-transparent'></div>
+        <div className='absolute inset-0 bg-black/10'></div>
       </div>
 
-      {/* Image Title Indicator */}
-      {imagesLoaded && (
-        <div className='absolute bottom-8 left-8 z-10'>
-          <div className='bg-black/60 backdrop-blur-sm text-white px-4 py-2 rounded-lg border border-white/20'>
-            <p className='text-xs font-light uppercase tracking-wider'>
-              {currentImage.title}
-            </p>
-          </div>
-        </div>
-      )}
-
-      {/* Error Fallback */}
+      {/* GUCCI Error Fallback */}
       {hasError && imagesLoaded && (
-        <div className='absolute inset-0 bg-gradient-to-br from-gray-900 to-black flex items-center justify-center'>
-          <div className='text-white text-center p-8'>
-            <h2 className='text-2xl font-light mb-4'>FROZELIA</h2>
-            <p className='text-gray-400 font-light'>Unable to load background images</p>
+        <div className='absolute inset-0 bg-white flex items-center justify-center'>
+          <div className='text-black text-center'>
+            <h2 className='text-2xl font-normal mb-4 tracking-[0.2em]'>CALY COURTURE</h2>
+            <p className='text-base font-light text-gray-600'>Images unavailable</p>
           </div>
         </div>
       )}

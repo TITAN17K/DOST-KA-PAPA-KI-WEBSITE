@@ -1,0 +1,15 @@
+{
+  "name": "frozelia-fullstack",
+  "version": "1.0.0",
+  "description": "E-commerce platform with integrated frontend, admin, and backend",
+  "scripts": {
+    "install-all": "cd backend && npm install && cd ../frontend && npm install && cd ../admin && npm install",
+    "build": "cd backend && npm run build",
+    "start": "cd backend && npm start",
+    "dev": "cd backend && npm run dev",
+    "deploy": "cd backend && npm run deploy"
+  },
+  "keywords": ["ecommerce", "react", "express", "mongodb"],
+  "author": "",
+  "license": "ISC"
+}

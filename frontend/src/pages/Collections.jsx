@@ -79,63 +79,56 @@ function Collections() {
   }, [category, subCategory, search, showSearch])
 
   return (
-    <div className='min-h-screen bg-white text-black overflow-x-hidden relative top-[70px] font-serif'>
+    <div className='min-h-screen bg-white text-black overflow-x-hidden relative top-[120px] gucci-collections'>
       
-      {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
-      <section className='py-16 px-6 bg-black text-white'>
-        <div className='max-w-7xl mx-auto text-center'>
-          <span className='text-xs font-light tracking-[0.6em] uppercase text-gray-300 block mb-4'>
-            Discover Our
-          </span>
-          <h1 className='text-5xl lg:text-6xl font-extralight tracking-tight mb-6'>
+      {/* GUCCI Header Section */}
+      <section className='gucci-header-section'>
+        <div className='max-w-5xl mx-auto px-6 text-center'>
+          <h1 className='gucci-page-title'>
             COLLECTIONS
           </h1>
-          <div className='flex items-center justify-center mb-6'>
-            <div className='w-8 h-px bg-white'></div>
-            <div className='w-2 h-2 bg-white rounded-full mx-4'></div>
-            <div className='w-8 h-px bg-white'></div>
-          </div>
-          <p className='text-lg font-light text-gray-300 max-w-2xl mx-auto'>
-            Curated pieces for every occasion
+          <div className='gucci-divider-center'></div>
+          <p className='gucci-page-subtitle'>
+            Discover our curated selection
           </p>
         </div>
       </section>
 
-      <div className='flex flex-col lg:flex-row'>
+      <div className='flex flex-col lg:flex-row max-w-6xl mx-auto px-6'>
         
-        {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
-        <div className={`lg:w-80 w-full bg-stone-50 border-r border-stone-200 transition-all duration-300 ${showFilter ? 'h-auto' : 'h-16'} lg:h-auto`}>
+        {/* GUCCI Filter Sidebar */}
+        <div className={`gucci-sidebar ${showFilter ? 'open' : 'closed'} lg:open`}>
           
-          {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
+          {/* Filter Header */}
           <div 
-            className='p-6 flex items-center justify-between cursor-pointer lg:cursor-default'
+            className='gucci-filter-header'
             onClick={() => setShowFilter(prev => !prev)}
           >
-            <h3 className='text-xl font-light tracking-wide'>FILTERS</h3>
-            <div className='lg:hidden'>
+            <h3 className='gucci-filter-title'>FILTERS</h3>
+            <div className='lg:hidden gucci-chevron'>
               {showFilter ? <FaChevronDown /> : <FaChevronRight />}
             </div>
           </div>
 
-          {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
-          <div className={`px-6 pb-6 ${showFilter ? 'block' : 'hidden'} lg:block`}>
+          {/* Filter Content */}
+          <div className={`gucci-filter-content ${showFilter ? 'show' : 'hide'} lg:show`}>
             
-            {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
-            <div className='mb-8'>
-              <h4 className='text-sm font-medium tracking-[0.2em] uppercase text-gray-700 mb-4 border-b border-stone-300 pb-2'>
-                Categories
+            {/* Categories */}
+            <div className='gucci-filter-group'>
+              <h4 className='gucci-filter-group-title'>
+                CATEGORIES
               </h4>
-              <div className='space-y-3'>
+              <div className='gucci-filter-options'>
                 {['Men', 'Women', 'Kids'].map(cat => (
-                  <label key={cat} className='flex items-center space-x-3 cursor-pointer group'>
+                  <label key={cat} className='gucci-checkbox-label'>
                     <input
                       type='checkbox'
                       value={cat}
                       onChange={toggleCategory}
                       checked={category.includes(cat)}
-                      className='w-4 h-4 border border-gray-300 rounded focus:ring-0 focus:ring-offset-0'
+                      className='gucci-checkbox'
                     />
-                    <span className='text-sm font-light group-hover:text-black transition-colors'>
+                    <span className='gucci-checkbox-text'>
                       {cat}
                     </span>
                   </label>
@@ -143,22 +136,22 @@ function Collections() {
               </div>
             </div>
 
-            {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
-            <div className='mb-8'>
-              <h4 className='text-sm font-medium tracking-[0.2em] uppercase text-gray-700 mb-4 border-b border-stone-300 pb-2'>
-                Sub-Categories
+            {/* Sub-Categories */}
+            <div className='gucci-filter-group'>
+              <h4 className='gucci-filter-group-title'>
+                TYPE
               </h4>
-              <div className='space-y-3'>
+              <div className='gucci-filter-options'>
                 {['TopWear', 'BottomWear', 'WinterWear'].map(sub => (
-                  <label key={sub} className='flex items-center space-x-3 cursor-pointer group'>
+                  <label key={sub} className='gucci-checkbox-label'>
                     <input
                       type='checkbox'
                       value={sub}
                       onChange={toggleSubCategory}
                       checked={subCategory.includes(sub)}
-                      className='w-4 h-4 border border-gray-300 rounded focus:ring-0 focus:ring-offset-0'
+                      className='gucci-checkbox'
                     />
-                    <span className='text-sm font-light group-hover:text-black transition-colors'>
+                    <span className='gucci-checkbox-text'>
                       {sub}
                     </span>
                   </label>
@@ -168,28 +161,28 @@ function Collections() {
           </div>
         </div>
 
-        {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
-        <div className='flex-1 p-6'>
+        {/* GUCCI Products Section */}
+        <div className='gucci-products-section'>
           
-          {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
-          <div className='flex justify-between items-center mb-8 pb-4 border-b border-stone-200'>
-            <div className='text-sm text-gray-600'>
-              Showing {filterProduct.length} {filterProduct.length === 1 ? 'product' : 'products'}
+          {/* Products Header */}
+          <div className='gucci-products-header'>
+            <div className='gucci-item-count'>
+              {filterProduct.length} {filterProduct.length === 1 ? 'ITEM' : 'ITEMS'}
             </div>
             
             <select
               value={sortType}
               onChange={(e) => setSortType(e.target.value)}
-              className='bg-white border border-stone-300 px-4 py-2 text-sm font-light focus:ring-0 focus:border-black transition-colors'
+              className='gucci-sort-select'
             >
-              <option value='relevant'>Sort by: Relevant</option>
-              <option value='low-high'>Price: Low to High</option>
-              <option value='high-low'>Price: High to Low</option>
+              <option value='relevant'>SORT BY RELEVANCE</option>
+              <option value='low-high'>PRICE: LOW TO HIGH</option>
+              <option value='high-low'>PRICE: HIGH TO LOW</option>
             </select>
           </div>
 
-          {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
-          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8'>
+          {/* Products Grid */}
+          <div className='gucci-products-grid'>
             {filterProduct.map((item, index) => (
               <Card
                 key={item._id || index}
@@ -201,19 +194,320 @@ function Collections() {
             ))}
           </div>
 
-          {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
+          {/* GUCCI Empty State */}
           {filterProduct.length === 0 && (
-            <div className='text-center py-16'>
-              <div className='text-gray-400 text-lg font-light mb-4'>
-                No products found
-              </div>
-              <p className='text-gray-600 text-sm'>
-                Try adjusting your filters or search terms
+            <div className='gucci-empty-state'>
+              <h3 className='gucci-empty-title'>
+                NO ITEMS FOUND
+              </h3>
+              <div className='gucci-divider-center'></div>
+              <p className='gucci-empty-subtitle'>
+                Try adjusting your filters
               </p>
             </div>
           )}
         </div>
       </div>
+
+      <style jsx>{`
+        /* GUCCI Collections Typography */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        .gucci-collections {
+          font-family: 'Playfair Display', 'Times New Roman', serif;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* GUCCI Header Section */
+        .gucci-header-section {
+          padding: 60px 0;
+          background-color: #ffffff;
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        .gucci-page-title {
+          font-family: 'Playfair Display', serif;
+          font-weight: 400;
+          font-size: 3.5rem;
+          letter-spacing: 0.15em;
+          color: #000000;
+          text-transform: uppercase;
+          margin-bottom: 2rem;
+        }
+
+        .gucci-page-subtitle {
+          font-family: 'Inter', Arial, sans-serif;
+          font-weight: 300;
+          font-size: 0.875rem;
+          letter-spacing: 0.25em;
+          color: #666666;
+          text-transform: uppercase;
+          margin-top: 2rem;
+        }
+
+        .gucci-divider-center {
+          width: 60px;
+          height: 1px;
+          background-color: #000000;
+          margin: 0 auto;
+        }
+
+        /* GUCCI Sidebar */
+        .gucci-sidebar {
+          width: 100%;
+          background-color: #ffffff;
+          border-right: 1px solid #e0e0e0;
+          transition: all 0.3s ease;
+        }
+
+        .gucci-sidebar.closed {
+          height: auto;
+        }
+
+        .gucci-sidebar.open {
+          height: auto;
+        }
+
+        @media (min-width: 1024px) {
+          .gucci-sidebar {
+            width: 280px;
+            height: auto;
+          }
+        }
+
+        .gucci-filter-header {
+          padding: 24px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          cursor: pointer;
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        @media (min-width: 1024px) {
+          .gucci-filter-header {
+            cursor: default;
+          }
+        }
+
+        .gucci-filter-title {
+          font-family: 'Inter', Arial, sans-serif;
+          font-weight: 500;
+          font-size: 0.875rem;
+          letter-spacing: 0.3em;
+          color: #000000;
+          text-transform: uppercase;
+        }
+
+        .gucci-chevron {
+          width: 16px;
+          height: 16px;
+          color: #000000;
+        }
+
+        .gucci-filter-content {
+          padding: 0 24px 24px 24px;
+        }
+
+        .gucci-filter-content.hide {
+          display: none;
+        }
+
+        .gucci-filter-content.show {
+          display: block;
+        }
+
+        @media (min-width: 1024px) {
+          .gucci-filter-content {
+            display: block !important;
+          }
+        }
+
+        .gucci-filter-group {
+          margin-bottom: 32px;
+          padding-top: 24px;
+        }
+
+        .gucci-filter-group-title {
+          font-family: 'Inter', Arial, sans-serif;
+          font-weight: 400;
+          font-size: 0.75rem;
+          letter-spacing: 0.3em;
+          color: #000000;
+          text-transform: uppercase;
+          margin-bottom: 16px;
+        }
+
+        .gucci-filter-options {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .gucci-checkbox-label {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+        }
+
+        .gucci-checkbox {
+          width: 16px;
+          height: 16px;
+          border: 1px solid #000000;
+          background-color: #ffffff;
+          appearance: none;
+          cursor: pointer;
+          position: relative;
+        }
+
+        .gucci-checkbox:checked {
+          background-color: #000000;
+        }
+
+        .gucci-checkbox:checked::after {
+          content: '✓';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: #ffffff;
+          font-size: 10px;
+          font-weight: bold;
+        }
+
+        .gucci-checkbox-text {
+          font-family: 'Inter', Arial, sans-serif;
+          font-weight: 300;
+          font-size: 0.875rem;
+          color: #000000;
+          transition: opacity 0.2s ease;
+        }
+
+        .gucci-checkbox-label:hover .gucci-checkbox-text {
+          opacity: 0.6;
+        }
+
+        /* GUCCI Products Section */
+        .gucci-products-section {
+          flex: 1;
+          padding: 24px;
+        }
+
+        .gucci-products-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 32px;
+          padding-bottom: 16px;
+          border-bottom: 1px solid #e0e0e0;
+        }
+
+        .gucci-item-count {
+          font-family: 'Inter', Arial, sans-serif;
+          font-weight: 300;
+          font-size: 0.75rem;
+          letter-spacing: 0.2em;
+          color: #666666;
+          text-transform: uppercase;
+        }
+
+        .gucci-sort-select {
+          font-family: 'Inter', Arial, sans-serif;
+          font-weight: 300;
+          font-size: 0.75rem;
+          letter-spacing: 0.1em;
+          color: #000000;
+          text-transform: uppercase;
+          background-color: #ffffff;
+          border: 1px solid #e0e0e0;
+          padding: 8px 16px;
+          outline: none;
+          cursor: pointer;
+          transition: border-color 0.2s ease;
+        }
+
+        .gucci-sort-select:focus {
+          border-color: #000000;
+        }
+
+        .gucci-sort-select option {
+          font-family: 'Inter', Arial, sans-serif;
+          font-weight: 300;
+          text-transform: uppercase;
+        }
+
+        .gucci-products-grid {
+          display: grid;
+          grid-template-columns: repeat(1, 1fr);
+          gap: 32px;
+        }
+
+        @media (min-width: 768px) {
+          .gucci-products-grid {
+            grid-template-columns: repeat(2, 1fr);
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .gucci-products-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+        }
+
+        @media (min-width: 1280px) {
+          .gucci-products-grid {
+            grid-template-columns: repeat(4, 1fr);
+          }
+        }
+
+        /* GUCCI Empty State */
+        .gucci-empty-state {
+          text-align: center;
+          padding: 80px 0;
+        }
+
+        .gucci-empty-title {
+          font-family: 'Playfair Display', serif;
+          font-weight: 400;
+          font-size: 1.5rem;
+          letter-spacing: 0.15em;
+          color: #000000;
+          text-transform: uppercase;
+          margin-bottom: 2rem;
+        }
+
+        .gucci-empty-subtitle {
+          font-family: 'Inter', Arial, sans-serif;
+          font-weight: 300;
+          font-size: 0.875rem;
+          letter-spacing: 0.2em;
+          color: #666666;
+          text-transform: uppercase;
+          margin-top: 2rem;
+        }
+
+        /* GUCCI Responsive */
+        @media (max-width: 768px) {
+          .gucci-page-title {
+            font-size: 2.5rem;
+          }
+          
+          .gucci-products-section {
+            padding: 16px;
+          }
+        }
+
+        /* Remove default focus outlines and add custom ones */
+        *:focus {
+          outline: none;
+        }
+
+        .gucci-checkbox:focus {
+          box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.2);
+        }
+      `}</style>
     </div>
   )
 }

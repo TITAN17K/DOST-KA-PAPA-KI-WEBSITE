@@ -37,7 +37,7 @@ function Contact() {
               <div className='bg-stone-100 p-8 border border-stone-200'>
                 <img 
                   src={contact} 
-                  alt="Contact Frozelia" 
+                  alt="Contact CALY COURTURE" 
                   className='w-full max-h-[500px] object-contain'
                 />
               </div>
@@ -64,14 +64,14 @@ function Contact() {
                 </h3>
                 <div className='space-y-3 text-lg font-light text-gray-700'>
                   <p>Tel: <span className='text-black'>+91-9876543210</span></p>
-                  <p>Email: <span className='text-black'>admin@frozelia.com</span></p>
+                  <p>Email: <span className='text-black'>admin@calycourture.com</span></p>
                 </div>
               </div>
               
               {/*Sold Copy By Eliteblaze , dev: Prayag kaushik*/}
               <div>
                 <h3 className='text-2xl font-light text-black mb-4 tracking-wide'>
-                  CAREERS AT FROZELIA
+                  CAREERS AT CALY COURTURE
                 </h3>
                 <p className='text-lg font-light text-gray-700 leading-relaxed mb-6'>
                   Learn more about our teams and job openings. Join our mission to redefine luxury shopping.

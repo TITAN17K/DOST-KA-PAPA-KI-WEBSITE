@@ -12,13 +12,16 @@ import axios from 'axios'
 import { authDataContext } from '../context/authContext'
 import { shopDataContext } from '../context/ShopContext'
 
+
 function Nav() {
   const { getCurrentUser, userData } = useContext(userDataContext)
   const { serverUrl } = useContext(authDataContext)
   const { showSearch, setShowSearch, search, setSearch, getCartCount } = useContext(shopDataContext)
   const [showProfile, setShowProfile] = useState(false)
+  const [showMainMenu, setShowMainMenu] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const navigate = useNavigate()
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +31,7 @@ function Nav() {
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
+
 
   const handleLogout = async () => {
     try {
@@ -41,267 +45,378 @@ function Nav() {
     }
   }
 
+  // Handle category navigation
+  const handleCategoryClick = (category) => {
+    navigate('/collection', { state: { category: category } })
+    setShowMainMenu(false)
+  }
+
+  // Close menus when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (!event.target.closest('.menu-container')) {
+        setShowMainMenu(false)
+        setShowProfile(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+
   return (
     <>
-      {/* Enhanced Luxury Navigation - Keeping Your Theme */}
-      <nav className={`w-full h-[80px] fixed top-0 z-50 flex items-center justify-between px-8 lg:px-16 font-serif transition-all duration-700 ${
-        scrolled 
-          ? 'bg-white/98 backdrop-blur-xl shadow-2xl border-b-2 border-stone-300' 
-          : 'bg-white/95 backdrop-blur-lg border-b border-stone-200'
-      }`}>
-        
-        {/* Premium Logo Section - Enhanced */}
-        <div className='flex items-center gap-5 cursor-pointer group' onClick={() => navigate("/")}>
-          <div className='relative'>
-            <div className='w-14 h-14 bg-gradient-to-br from-black to-gray-800 rounded-xl flex items-center justify-center shadow-xl group-hover:shadow-2xl transition-all duration-700 transform group-hover:scale-110 relative overflow-hidden border border-stone-200'>
-              <img 
-                src={logo} 
-                alt="Frozelia Logo" 
-                className='w-8 h-8 select-none filter brightness-110' 
-                draggable={false}
-              />
-              
-              {/* Enhanced Shine Effect */}
-              <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[300%] transition-transform duration-1200'></div>
-            </div>
-          </div>
-          
-          {/* Enhanced Brand Typography */}
-          <div className='hidden sm:block relative'>
-            <h1 className='text-3xl font-extralight tracking-[0.3em] text-black group-hover:text-gray-700 transition-all duration-700 select-none'>
-              FROZELIA
-            </h1>
-            <div className='w-0 group-hover:w-full h-0.5 bg-gradient-to-r from-black to-stone-400 transition-all duration-1000'></div>
-            
-            {/* Luxury Subtitle */}
-            <p className='text-xs font-light tracking-[0.4em] text-stone-500 uppercase mt-1 opacity-0 group-hover:opacity-100 transition-all duration-700'>
-              Since 2024
-            </p>
-          </div>
-        </div>
+      {/* EXACT GUCCI Navigation Structure */}
+      <nav className={`w-full fixed top-0 z-50 bg-white border-b border-gray-200 transition-all duration-300 ${scrolled ? 'h-[72px]' : 'h-[120px]'
+        }`}>
 
-        {/* Enhanced Desktop Navigation */}
-        <div className='hidden lg:flex'>
-          <ul className='flex items-center gap-16'>
-            {[
-              { name: 'HOME', path: '/' },
-              { name: 'COLLECTIONS', path: '/collection' },
-              { name: 'ABOUT', path: '/about' },
-              { name: 'CONTACT', path: '/contact' }
-            ].map((item) => (
-              <li 
-                key={item.name}
-                className='group relative cursor-pointer'
-                onClick={() => navigate(item.path)}
+        {/* GUCCI Navigation Container */}
+        <div className='h-full flex items-center justify-between px-6 lg:px-12 max-w-none'>
+
+          {/* Left Side Menu */}
+          <div className='flex items-center space-x-8'>
+
+            {/* Main Menu Button */}
+            <div className='relative menu-container'>
+              <button
+                className='text-sm font-normal uppercase tracking-wide text-black hover:opacity-60 transition-opacity duration-200'
+                onClick={() => setShowMainMenu(prev => !prev)}
               >
-                <span className='text-sm font-light text-black hover:text-stone-600 transition-all duration-700 tracking-[0.3em] uppercase relative py-2'>
-                  {item.name}
-                  
-                  {/* Enhanced Multi-Layer Underlines */}
-                  <span className='absolute -bottom-3 left-1/2 transform -translate-x-1/2 w-0 group-hover:w-full h-0.5 bg-black transition-all duration-700'></span>
-                  <span className='absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-0 group-hover:w-1/2 h-px bg-stone-400 transition-all duration-500 delay-200'></span>
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
+                MAIN MENU
+              </button>
 
-        {/* Enhanced Right Section */}
-        <div className='flex items-center gap-8'>
-          
-          {/* Enhanced Search Icon */}
-          <div className='relative group'>
-            <div className='p-3 rounded-xl hover:bg-stone-50 hover:shadow-lg transition-all duration-500 cursor-pointer border border-transparent hover:border-stone-200'>
-              {!showSearch ? (
-                <IoSearchCircleOutline 
-                  className='w-7 h-7 text-black group-hover:text-stone-600 transition-all duration-500 transform group-hover:scale-110' 
-                  onClick={() => { setShowSearch(prev => !prev); navigate("/collection") }}
-                />
-              ) : (
-                <IoSearchCircleSharp 
-                  className='w-7 h-7 text-black transition-all duration-500 animate-pulse' 
-                  onClick={() => setShowSearch(prev => !prev)}
-                />
+              {/* Main Menu Dropdown */}
+              {showMainMenu && (
+                <div className={`absolute bg-white border border-gray-200 shadow-lg z-50 w-80 transition-all duration-300 ${scrolled ? 'top-[72px]' : 'top-[120px]'
+                  }`}>
+                  <div className='py-4'>
+
+                    {/* Women Section */}
+                    <div className='px-6 py-4 border-b border-gray-100'>
+                      <h3 className='text-sm font-normal uppercase tracking-wide text-black mb-3'>WOMEN</h3>
+                      <div className='space-y-2'>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('women-ready-to-wear')}
+                        >
+                          Ready-To-Wear
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('women-handbags')}
+                        >
+                          Handbags
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('women-shoes')}
+                        >
+                          Shoes
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('women-accessories')}
+                        >
+                          Accessories
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Men Section */}
+                    <div className='px-6 py-4 border-b border-gray-100'>
+                      <h3 className='text-sm font-normal uppercase tracking-wide text-black mb-3'>MEN</h3>
+                      <div className='space-y-2'>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('men-ready-to-wear')}
+                        >
+                          Ready-To-Wear
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('men-bags')}
+                        >
+                          Bags
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('men-shoes')}
+                        >
+                          Shoes
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('men-accessories')}
+                        >
+                          Accessories
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Handbags Section */}
+                    <div className='px-6 py-4 border-b border-gray-100'>
+                      <h3 className='text-sm font-normal uppercase tracking-wide text-black mb-3'>HANDBAGS</h3>
+                      <div className='space-y-2'>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('shoulder-bags')}
+                        >
+                          Shoulder Bags
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('top-handle-bags')}
+                        >
+                          Top Handle Bags
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('crossbody-bags')}
+                        >
+                          Crossbody Bags
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('clutches')}
+                        >
+                          Clutches
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Gifts Section */}
+                    <div className='px-6 py-4'>
+                      <h3 className='text-sm font-normal uppercase tracking-wide text-black mb-3'>GIFTS</h3>
+                      <div className='space-y-2'>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('gifts-for-her')}
+                        >
+                          For Her
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => handleCategoryClick('gifts-for-him')}
+                        >
+                          For Him
+                        </button>
+                        <button
+                          className='block text-sm text-gray-600 hover:text-black transition-colors duration-200'
+                          onClick={() => navigate('/about')}
+                        >
+                          Personalization
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
+
+            {/* Direct Category Links */}
+            <button
+              className='hidden lg:block text-sm font-normal uppercase tracking-wide text-black hover:opacity-60 transition-opacity duration-200'
+              onClick={() => handleCategoryClick('women')}
+            >
+              WOMEN
+            </button>
+            <button
+              className='hidden lg:block text-sm font-normal uppercase tracking-wide text-black hover:opacity-60 transition-opacity duration-200'
+              onClick={() => handleCategoryClick('men')}
+            >
+              MEN
+            </button>
+            <button
+              className='hidden lg:block text-sm font-normal uppercase tracking-wide text-black hover:opacity-60 transition-opacity duration-200'
+              onClick={() => handleCategoryClick('handbags')}
+            >
+              HANDBAGS
+            </button>
           </div>
 
-          {/* Enhanced User Profile */}
-          <div className='relative'>
-            <div className='cursor-pointer group' onClick={() => setShowProfile(prev => !prev)}>
-              {!userData ? (
-                <div className='p-3 rounded-xl hover:bg-stone-50 hover:shadow-lg transition-all duration-500 border border-transparent hover:border-stone-200'>
-                  <FaCircleUser className='w-7 h-7 text-black group-hover:text-stone-600 transition-all duration-500 transform group-hover:scale-110' />
-                </div>
-              ) : (
-                <div className='w-12 h-12 bg-gradient-to-br from-black to-gray-800 text-white rounded-xl flex items-center justify-center cursor-pointer font-medium text-lg hover:shadow-xl transition-all duration-700 transform hover:scale-115 relative overflow-hidden border border-stone-200'>
-                  {userData?.name.slice(0, 1).toUpperCase()}
-                  
-                  {/* Enhanced Avatar Shine */}
-                  <div className='absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 translate-x-[-100%] group-hover:translate-x-[200%] transition-transform duration-1000'></div>
-                </div>
-              )}
+          {/* Center Logo - EXACT GUCCI Style */}
+          <div className='absolute left-1/2 transform -translate-x-1/2 cursor-pointer' onClick={() => navigate("/")}>
+            <h1 className={`font-normal tracking-[0.2em] text-black transition-all duration-300 ${scrolled ? 'text-xl' : 'text-3xl'
+              }`}>
+              ZoyaElegance
+            </h1>
+          </div>
+
+          {/* Right Side Menu */}
+          <div className='flex items-center space-x-8'>
+
+            {/* Search */}
+            <button
+              className='text-sm font-normal uppercase tracking-wide text-black hover:opacity-60 transition-opacity duration-200'
+              onClick={() => { setShowSearch(prev => !prev); navigate("/collection") }}
+            >
+              SEARCH
+            </button>
+
+            {/* Account */}
+            <div className='relative menu-container'>
+              <button
+                className='text-sm font-normal uppercase tracking-wide text-black hover:opacity-60 transition-opacity duration-200'
+                onClick={() => setShowProfile(prev => !prev)}
+              >
+                YOUR ACCOUNT
+              </button>
             </div>
-          </div>
 
-          {/* Enhanced Shopping Cart */}
-          <div className='relative hidden md:block'>
-            <div className='p-3 rounded-xl hover:bg-stone-50 hover:shadow-lg transition-all duration-500 cursor-pointer group border border-transparent hover:border-stone-200' onClick={() => navigate("/cart")}>
-              <MdOutlineShoppingCart className='w-7 h-7 text-black group-hover:text-stone-600 transition-all duration-500 transform group-hover:scale-110' />
+            {/* Bag with Counter */}
+            <button
+              className='text-sm font-normal uppercase tracking-wide text-black hover:opacity-60 transition-opacity duration-200 relative'
+              onClick={() => navigate("/cart")}
+            >
+              YOUR BAG
               {getCartCount() > 0 && (
-                <div className='absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-black to-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-xl animate-pulse border-2 border-white'>
+                <span className='absolute -top-2 -right-2 w-5 h-5 bg-black text-white text-xs flex items-center justify-center font-normal'>
                   {getCartCount()}
-                </div>
+                </span>
               )}
-            </div>
+            </button>
+
+            {/* Contact */}
+            <button
+              className='hidden xl:block text-sm font-normal uppercase tracking-wide text-black hover:opacity-60 transition-opacity duration-200'
+              onClick={() => navigate('/contact')}
+            >
+              CONTACT US
+            </button>
           </div>
         </div>
       </nav>
 
-      {/* Enhanced Search Dropdown - Keeping Your Theme */}
+      {/* GUCCI Search Bar */}
       {showSearch && (
-        <div className='fixed w-full h-24 bg-white/98 backdrop-blur-xl top-[80px] left-0 border-b-2 border-stone-200 flex items-center justify-center shadow-2xl z-40 animate-slideDown'>
-          <div className='max-w-3xl w-full mx-auto px-8'>
-            <div className='relative group'>
-              <input 
-                type="text" 
-                className='w-full h-16 bg-stone-50 text-black rounded-2xl px-12 font-light text-xl focus:outline-none focus:bg-white focus:shadow-xl transition-all duration-700 border-2 border-stone-200 focus:border-black hover:border-stone-300'
-                placeholder='Search luxury collections...' 
-                onChange={(e) => setSearch(e.target.value)} 
+        <div className={`fixed w-full bg-white border-b border-gray-200 z-40 transition-all duration-300 ${scrolled ? 'top-[72px]' : 'top-[120px]'
+          }`}>
+          <div className='px-6 lg:px-12 py-6'>
+            <div className='max-w-2xl mx-auto relative'>
+              <input
+                type="text"
+                className='w-full text-lg font-light text-black bg-transparent border-b border-black focus:outline-none pb-2 pr-10'
+                placeholder='Search collections...'
+                onChange={(e) => setSearch(e.target.value)}
                 value={search}
                 autoFocus
               />
-              
-              <div className='absolute right-6 top-1/2 transform -translate-y-1/2'>
-                <IoSearchCircleSharp className='w-6 h-6 text-stone-400' />
-              </div>
+              <button
+                className='absolute right-0 top-0 text-black hover:opacity-60 transition-opacity duration-200'
+                onClick={() => setShowSearch(false)}
+              >
+                <IoSearchCircleSharp className='w-6 h-6' />
+              </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Enhanced Profile Dropdown - Keeping Your Theme */}
+      {/* GUCCI Profile Menu */}
       {showProfile && (
-        <div className='fixed w-80 bg-white/98 backdrop-blur-xl top-[80px] right-8 border-2 border-stone-200 shadow-2xl z-50 mt-3 rounded-2xl overflow-hidden animate-fadeIn'>
-          
-          {/* Enhanced Profile Header */}
+        <div className={`fixed right-6 lg:right-12 w-80 bg-white border border-gray-200 shadow-lg z-50 transition-all duration-300 menu-container ${scrolled ? 'top-[72px]' : 'top-[120px]'
+          }`}>
+
           {userData && (
-            <div className='p-8 bg-gradient-to-r from-stone-50 to-stone-100 border-b-2 border-stone-200'>
-              <div className='flex items-center gap-4'>
-                <div className='w-16 h-16 bg-gradient-to-br from-black to-gray-800 text-white rounded-xl flex items-center justify-center font-medium text-xl shadow-xl border border-stone-200'>
-                  {userData?.name.slice(0, 1).toUpperCase()}
-                </div>
-                <div>
-                  <p className='font-medium text-black text-lg'>{userData?.name}</p>
-                  <p className='text-sm text-stone-500 uppercase tracking-[0.2em] font-light'>Premium Member</p>
-                  <div className='w-16 h-px bg-gradient-to-r from-black to-stone-400 mt-1'></div>
-                </div>
-              </div>
+            <div className='p-6 border-b border-gray-200'>
+              <p className='text-lg font-normal text-black'>{userData?.name}</p>
+              <p className='text-sm text-gray-600 uppercase tracking-wide'>Premium Member</p>
             </div>
           )}
-          
-          {/* Enhanced Menu Items */}
-          <ul className='py-3'>
+
+          <div className='py-4'>
             {!userData ? (
-              <li 
-                className='px-8 py-5 hover:bg-stone-50 cursor-pointer transition-all duration-500 border-b border-stone-100 last:border-b-0 group'
-                onClick={() => { navigate("/login"); setShowProfile(false) }}
-              >
-                <span className='text-sm font-medium text-black uppercase tracking-[0.2em] group-hover:tracking-[0.3em] transition-all duration-300'>Login</span>
-              </li>
+              <>
+                <button
+                  className='block w-full px-6 py-3 text-left text-sm font-normal uppercase tracking-wide text-black hover:bg-gray-50 transition-colors duration-200'
+                  onClick={() => { navigate("/login"); setShowProfile(false) }}
+                >
+                  SIGN IN
+                </button>
+                <button
+                  className='block w-full px-6 py-3 text-left text-sm font-normal uppercase tracking-wide text-black hover:bg-gray-50 transition-colors duration-200'
+                  onClick={() => { navigate("/register"); setShowProfile(false) }}
+                >
+                  CREATE ACCOUNT
+                </button>
+              </>
             ) : (
-              <li 
-                className='px-8 py-5 hover:bg-red-50 cursor-pointer transition-all duration-500 border-b border-stone-100 last:border-b-0 group'
-                onClick={() => { handleLogout(); setShowProfile(false) }}
-              >
-                <span className='text-sm font-medium text-red-600 uppercase tracking-[0.2em] group-hover:tracking-[0.3em] transition-all duration-300'>Logout</span>
-              </li>
+              <>
+                <button
+                  className='block w-full px-6 py-3 text-left text-sm font-normal uppercase tracking-wide text-black hover:bg-gray-50 transition-colors duration-200'
+                  onClick={() => { navigate("/order"); setShowProfile(false) }}
+                >
+                  MY ORDERS
+                </button>
+                <button
+                  className='block w-full px-6 py-3 text-left text-sm font-normal uppercase tracking-wide text-black hover:bg-gray-50 transition-colors duration-200'
+                  onClick={() => { navigate("/profile"); setShowProfile(false) }}
+                >
+                  MY PROFILE
+                </button>
+                <button
+                  className='block w-full px-6 py-3 text-left text-sm font-normal uppercase tracking-wide text-black hover:bg-gray-50 transition-colors duration-200'
+                  onClick={() => { handleLogout(); setShowProfile(false) }}
+                >
+                  SIGN OUT
+                </button>
+              </>
             )}
-            <li 
-              className='px-8 py-5 hover:bg-stone-50 cursor-pointer transition-all duration-500 border-b border-stone-100 last:border-b-0 group'
-              onClick={() => { navigate("/order"); setShowProfile(false) }}
-            >
-              <span className='text-sm font-medium text-black uppercase tracking-[0.2em] group-hover:tracking-[0.3em] transition-all duration-300'>Orders</span>
-            </li>
-            <li 
-              className='px-8 py-5 hover:bg-stone-50 cursor-pointer transition-all duration-500 group'
+
+            <hr className='my-2 border-gray-200' />
+
+            <button
+              className='block w-full px-6 py-3 text-left text-sm font-normal uppercase tracking-wide text-black hover:bg-gray-50 transition-colors duration-200'
               onClick={() => { navigate("/about"); setShowProfile(false) }}
             >
-              <span className='text-sm font-medium text-black uppercase tracking-[0.2em] group-hover:tracking-[0.3em] transition-all duration-300'>About</span>
-            </li>
-          </ul>
+              ABOUT CALY COURTURE
+            </button>
+            <button
+              className='block w-full px-6 py-3 text-left text-sm font-normal uppercase tracking-wide text-black hover:bg-gray-50 transition-colors duration-200'
+              onClick={() => { navigate("/contact"); setShowProfile(false) }}
+            >
+              CUSTOMER SERVICE
+            </button>
+          </div>
         </div>
       )}
 
-      {/* Enhanced Mobile Navigation - Keeping Your Theme */}
-      <div className='fixed bottom-0 left-0 w-full h-24 bg-white/98 backdrop-blur-xl md:hidden border-t-2 border-stone-200 shadow-2xl z-40'>
-        <div className='flex items-center justify-around h-full px-6'>
-          
+      {/* Mobile Bottom Navigation */}
+      <div className='fixed bottom-0 left-0 w-full h-20 bg-white md:hidden border-t border-gray-200 z-40'>
+        <div className='flex items-center justify-around h-full px-4'>
           {[
             { icon: IoMdHome, label: 'Home', path: '/' },
             { icon: HiOutlineCollection, label: 'Shop', path: '/collection' },
             { icon: MdContacts, label: 'Contact', path: '/contact' },
-            { 
-              icon: MdOutlineShoppingCart, 
-              label: 'Cart', 
-              path: '/cart', 
-              badge: getCartCount() 
+            {
+              icon: MdOutlineShoppingCart,
+              label: 'Bag',
+              path: '/cart',
+              badge: getCartCount()
             }
           ].map((item) => (
-            <button 
+            <button
               key={item.label}
-              className='flex flex-col items-center gap-2 text-black hover:text-stone-600 transition-all duration-500 group'
+              className='flex flex-col items-center gap-1 text-black hover:opacity-60 transition-opacity duration-200'
               onClick={() => navigate(item.path)}
             >
-              <div className='p-3 rounded-2xl group-hover:bg-stone-50 group-hover:shadow-lg transition-all duration-500 relative border border-transparent group-hover:border-stone-200'>
-                <item.icon className='w-7 h-7 transform group-hover:scale-110 transition-transform duration-300'/>
-                
+              <div className='relative'>
+                <item.icon className='w-6 h-6' />
                 {item.badge > 0 && (
-                  <div className='absolute -top-2 -right-2 w-6 h-6 bg-gradient-to-r from-black to-gray-800 text-white rounded-full flex items-center justify-center text-xs font-bold animate-pulse border-2 border-white shadow-lg'>
+                  <span className='absolute -top-2 -right-2 w-4 h-4 bg-black text-white text-xs flex items-center justify-center font-normal'>
                     {item.badge}
-                  </div>
+                  </span>
                 )}
               </div>
-              <span className='text-xs font-light uppercase tracking-[0.1em] group-hover:tracking-[0.2em] transition-all duration-300'>{item.label}</span>
+              <span className='text-xs font-light uppercase tracking-wide'>{item.label}</span>
             </button>
           ))}
         </div>
       </div>
 
-      {/* Enhanced Animations - Keeping Original Style */}
       <style jsx>{`
-        @keyframes slideDown {
-          from { 
-            opacity: 0; 
-            transform: translateY(-20px); 
-          }
-          to { 
-            opacity: 1; 
-            transform: translateY(0); 
-          }
-        }
-        
-        @keyframes fadeIn {
-          from { 
-            opacity: 0; 
-            transform: scale(0.95) translateY(-10px); 
-          }
-          to { 
-            opacity: 1; 
-            transform: scale(1) translateY(0); 
-          }
-        }
-        
-        .animate-slideDown {
-          animation: slideDown 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        
-        .animate-fadeIn {
-          animation: fadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-        
-        .scale-115 {
-          transform: scale(1.15);
+        * {
+          font-family: 'Times New Roman', 'Times', serif;
         }
       `}</style>
     </>

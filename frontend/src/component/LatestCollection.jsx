@@ -11,20 +11,29 @@ function LatestCollection() {
   }, [products])
 
   return (
-    <div className='w-full py-12'>
+    <div className='w-full py-20 font-serif'>
+      
+      {/* GUCCI Section Header */}
+      <div className='text-center mb-16 px-8'>
+        <h2 className='text-4xl lg:text-5xl font-normal text-black mb-6 tracking-wide'>
+          New This Week
+        </h2>
+        <p className='text-base font-light text-gray-600 max-w-2xl mx-auto leading-relaxed'>
+          Celebrating creativity, Italian craftsmanship and love
+        </p>
+      </div>
       
       {/* Products Grid */}
-      <div className='max-w-7xl mx-auto px-6'>
+      <div className='max-w-7xl mx-auto px-8'>
         {latestProducts.length === 0 ? (
-          // Empty State
-          <div className='text-center py-16'>
-            <div className='text-gray-400 text-4xl mb-6'>✨</div>
-            <h3 className='text-xl font-light text-gray-600 mb-4'>No new arrivals yet</h3>
-            <p className='text-gray-500'>Check back soon for our latest collection</p>
+          // GUCCI Empty State
+          <div className='text-center py-20'>
+            <h3 className='text-2xl font-normal text-black mb-4'>Coming Soon</h3>
+            <p className='text-base font-light text-gray-600'>New arrivals will be available shortly</p>
           </div>
         ) : (
-          // Latest Products Grid
-          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8'>
+          // GUCCI Products Grid
+          <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12'>
             {latestProducts.map((item, index) => (
               <div key={item._id || index} className='group'>
                 <Card 
@@ -33,26 +42,19 @@ function LatestCollection() {
                   price={item.price} 
                   image={item.image1}
                 />
-                
-                {/* New Arrival Badge */}
-                <div className='flex justify-center mt-4'>
-                  <div className='bg-black text-white text-xs font-medium px-3 py-1 rounded-full uppercase tracking-wide'>
-                    New Arrival
-                  </div>
-                </div>
               </div>
             ))}
           </div>
         )}
         
-        {/* View All Latest Link */}
+        {/* GUCCI View All Button */}
         {latestProducts.length > 0 && (
-          <div className='text-center mt-12'>
+          <div className='text-center mt-16'>
             <button 
-              className='bg-transparent border border-black text-black px-8 py-3 text-sm font-medium uppercase tracking-wide hover:bg-black hover:text-white transition-colors duration-300'
+              className='bg-black text-white px-12 py-4 text-sm font-normal uppercase tracking-widest hover:bg-gray-800 transition-colors duration-200'
               onClick={() => window.location.href = '/collection'}
             >
-              View All New Arrivals
+              SHOP ALL
             </button>
           </div>
         )}

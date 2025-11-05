@@ -1,0 +1,232 @@
+# Deployment Guide - Single Server Setup
+
+This project has been configured to run **frontend, admin, and backend** from a **single server** on **one port (6000)**.
+
+## 🚀 Quick Start
+
+### Development Mode
+```bash
+# Terminal 1 - Run backend
+cd backend
+npm install
+npm run dev
+
+# Terminal 2 - Run frontend (for development)
+cd frontend
+npm install
+npm run dev
+
+# Terminal 3 - Run admin (for development)
+cd admin
+npm install
+npm run dev
+```
+
+### Production Mode (Single Server)
+```bash
+cd backend
+npm run deploy
+```
+
+This single command will:
+1. Install backend dependencies
+2. Build frontend into `backend/public/frontend`
+3. Build admin into `backend/public/admin`
+4. Start the server on port 6000
+
+## 📂 How It Works
+
+- **Backend API**: `http://localhost:6000/api/*`
+- **Frontend**: `http://localhost:6000/`
+- **Admin Panel**: `http://localhost:6000/admin`
+
+All three components run from the same Express server!
+
+## 🌐 Hosting Options
+
+### Option 1: Render.com (Recommended - Free Tier Available)
+
+1. **Create a new Web Service** on Render
+2. **Connect your GitHub repository**
+3. **Configure the service**:
+   - **Build Command**: `cd backend && npm run build`
+   - **Start Command**: `cd backend && npm start`
+   - **Root Directory**: Leave blank or set to `/`
+
+4. **Add Environment Variables**:
+   ```
+   PORT=6000
+   MONGODB_URI=your_mongodb_connection_string
+   JWT_SECRET=your_jwt_secret
+   CLOUDINARY_CLOUD_NAME=your_cloudinary_name
+   CLOUDINARY_API_KEY=your_cloudinary_key
+   CLOUDINARY_API_SECRET=your_cloudinary_secret
+   RAZORPAY_KEY_ID=your_razorpay_key
+   RAZORPAY_KEY_SECRET=your_razorpay_secret
+   ```
+
+### Option 2: Railway.app
+
+1. **Create a new project**
+2. **Deploy from GitHub**
+3. **Configure**:
+   - **Build Command**: `cd backend && npm install && npm run build`
+   - **Start Command**: `cd backend && npm start`
+   
+4. **Add environment variables** (same as above)
+
+### Option 3: DigitalOcean/AWS/VPS
+
+1. **SSH into your server**
+2. **Install Node.js** (v18 or higher)
+3. **Clone your repository**
+4. **Install PM2** (process manager):
+   ```bash
+   npm install -g pm2
+   ```
+
+5. **Build and start**:
+   ```bash
+   cd backend
+   npm install
+   npm run build
+   pm2 start index.js --name "frozelia"
+   pm2 save
+   pm2 startup
+   ```
+
+6. **Setup Nginx** (optional, for custom domain):
+   ```nginx
+   server {
+       listen 80;
+       server_name yourdomain.com;
+
+       location / {
+           proxy_pass http://localhost:6000;
+           proxy_http_version 1.1;
+           proxy_set_header Upgrade $http_upgrade;
+           proxy_set_header Connection 'upgrade';
+           proxy_set_header Host $host;
+           proxy_cache_bypass $http_upgrade;
+       }
+   }
+   ```
+
+### Option 4: Vercel (Backend + Frontend)
+
+**Note**: Vercel is primarily for serverless. For this setup, use Render or Railway instead.
+
+## 🔧 Environment Variables
+
+Create a `.env` file in the `backend` folder:
+
+```env
+PORT=6000
+NODE_ENV=production
+
+# Database
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/dbname
+
+# JWT
+JWT_SECRET=your_super_secret_jwt_key_here
+
+# Cloudinary
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+# Razorpay
+RAZORPAY_KEY_ID=your_razorpay_key
+RAZORPAY_KEY_SECRET=your_razorpay_secret
+
+# Google OAuth (if using)
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
+
+# Frontend URL (optional, for CORS)
+FRONTEND_URL=https://yourdomain.com
+```
+
+## 📝 Important Notes
+
+1. **API Calls**: Since frontend and backend are on the same server, use relative URLs:
+   ```javascript
+   // Instead of: http://localhost:6000/api/auth/login
+   // Use: /api/auth/login
+   axios.post('/api/auth/login', data)
+   ```
+
+2. **Build Process**: The build creates static files in:
+   - `backend/public/frontend/` - Main website
+   - `backend/public/admin/` - Admin panel
+
+3. **Port**: The server runs on port 6000 by default. Most hosting platforms will set their own PORT via environment variable.
+
+4. **Database**: Make sure MongoDB is accessible from your hosting platform's IP.
+
+## 🔄 Updating Your App
+
+After making changes:
+
+```bash
+cd backend
+npm run build  # Rebuild frontend and admin
+pm2 restart frozelia  # If using PM2
+```
+
+Or on platforms like Render/Railway, just push to GitHub and they'll auto-deploy!
+
+## 🐛 Troubleshooting
+
+**Build fails?**
+- Make sure all dependencies are installed in frontend, admin, and backend folders
+- Check Node.js version (should be 18+)
+
+**Can't access admin panel?**
+- Visit: `http://yourdomain.com/admin`
+- Make sure the build completed successfully
+
+**API not working?**
+- Check environment variables are set correctly
+- Verify MongoDB connection string
+- Check server logs
+
+## 📊 File Structure
+
+```
+Frozelia 2/
+├── backend/
+│   ├── public/           # Generated by build
+│   │   ├── frontend/     # Built frontend files
+│   │   └── admin/        # Built admin files
+│   ├── config/
+│   ├── routes/
+│   ├── index.js          # Main server file
+│   └── package.json      # Build scripts here
+├── frontend/
+│   └── vite.config.js    # Builds to backend/public/frontend
+├── admin/
+│   └── vite.config.js    # Builds to backend/public/admin
+└── DEPLOYMENT.md         # This file
+```
+
+## ✅ Deployment Checklist
+
+- [ ] Environment variables configured
+- [ ] MongoDB connection tested
+- [ ] Cloudinary credentials added
+- [ ] Razorpay keys configured
+- [ ] Build completed successfully
+- [ ] Server starts without errors
+- [ ] Frontend accessible at root URL
+- [ ] Admin accessible at /admin
+- [ ] API endpoints working
+- [ ] File uploads working
+- [ ] Payment integration tested
+
+---
+
+**Need help?** Check the logs:
+- Render: View logs in dashboard
+- Railway: Check deployment logs
+- PM2: `pm2 logs frozelia`

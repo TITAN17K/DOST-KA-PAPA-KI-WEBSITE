@@ -74,11 +74,11 @@ function Login() {
           >
             {/* Sold Copy By Eliteblaze , dev: Prayag kaushik */}
             <div className='w-10 h-10 bg-black rounded flex items-center justify-center group-hover:bg-gray-800 transition-colors duration-300'>
-              <img src={Logo} alt="Frozelia" className='w-6 h-6' />
+              <img src={Logo} alt="CALY COURTURE" className='w-6 h-6' />
             </div>
             {/* Sold Copy By Eliteblaze , dev: Prayag kaushik */}
             <h1 className='text-2xl font-light tracking-wide text-black group-hover:text-gray-700 transition-colors duration-300'>
-              FROZELIA
+              CALY COURTURE
             </h1>
           </div>
         </div>
